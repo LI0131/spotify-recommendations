@@ -4,8 +4,12 @@ import {
     Table, TableHeader, TableBody, TableVariant,
     compoundExpand, sortable, SortByDirection
 } from '@patternfly/react-table';
-import {  EmptyStateBody, EmptyState, EmptyStateIcon, EmptyStateVariant, Bullseye } from '@patternfly/react-core';
+import {
+    EmptyStateBody, EmptyState, EmptyStateIcon,
+    EmptyStateVariant, Bullseye, Button, TextContent, Text
+} from '@patternfly/react-core';
 import { AngleDownIcon, SearchIcon } from '@patternfly/react-icons';
+import { getSpotifyRedirectUrl } from '../utils/Common';
 
 const cells = [
     {
@@ -29,6 +33,7 @@ const Results = () => {
     const [rows, setRows] = useState();
     const [sortDir, setSortDir] = useState('desc');
     const [sortBy, setSortBy] = useState('Popularity');
+    const { origin } = window.location;
 
     const generateRows = (data) => {
         return data.tracks.flatMap((item, index) => {
@@ -118,6 +123,16 @@ const Results = () => {
     }, [recommendations]);
 
     return <React.Fragment>
+        <div>
+            <div style={{ height: '60px', display: 'inline-flex', justifyContent: 'space-between', width: '100%'}}>
+                <TextContent style={{ margin: '10px', marginTop: '15px' }}>
+                    <Text component='h1'> Spotify Suggests </Text>
+                </TextContent>
+                <Button style={{ margin: '10px' }} onClick={() => (window.location = getSpotifyRedirectUrl(origin))}>
+                    Get More Recommendations
+                </Button>
+            </div>
+        </div>
         {rows && <Table
             onExpand={onExpand}
             cells={cells}
@@ -140,14 +155,14 @@ const Results = () => {
                   {
                     props: { colSpan: 8 },
                     title: (
-                      <Bullseye>
-                        <EmptyState variant={EmptyStateVariant.small}>
-                          <EmptyStateIcon icon={SearchIcon} />
-                          <EmptyStateBody>
-                            No results found to display.
-                          </EmptyStateBody>
-                        </EmptyState>
-                      </Bullseye>
+                        <Bullseye>
+                            <EmptyState variant={EmptyStateVariant.small}>
+                                <EmptyStateIcon icon={SearchIcon} />
+                                <EmptyStateBody>
+                                    No results found to display.
+                                </EmptyStateBody>
+                            </EmptyState>
+                        </Bullseye>
                     )
                   },
                 ]
