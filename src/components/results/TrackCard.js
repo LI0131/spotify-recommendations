@@ -1,9 +1,11 @@
+import './TrackCard.scss';
+
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { FlexItem, Grid, GridItem, Bullseye, TextContent, Text, Card } from '@patternfly/react-core';
-import { PauseIcon, PlayIcon, ShareSquareIcon } from '@patternfly/react-icons';
+import { FlexItem, Grid, GridItem, TextContent, Text, Card } from '@patternfly/react-core';
+import { PauseIcon, PlayIcon, SpotifyIcon } from '@patternfly/react-icons';
 
 const BASE_URL = 'https://api.spotify.com/v1/tracks'
 
@@ -35,37 +37,37 @@ const TrackCard = ({ trackId, accessToken }) => {
         }).then(response => parseTrackData(response.data)).then(data => setTrackData(data));
     }, [trackId, setTrackData]);
 
-    return <FlexItem style={{ width: '450px' }}>
-        {trackData && <Card style={{ backgroundColor: '#212427'}}>
-            <Grid hasGutter>
-                <GridItem span={2} rowSpan={1} style={{ marginLeft: '7px', marginTop: '7px'}}>
+    return <FlexItem className='spot-c-track_flex'>
+        {trackData && <Card className='spot-c-track_card'>
+            <Grid>
+                <GridItem span={2} rowSpan={1} className='spot-c-track_card--image'>
                     <img src={trackData.album.image}/>
                 </GridItem>
-                <GridItem span={8} rowSpan={1} style={{ marginTop: '10px' }}>
+                <GridItem span={8} rowSpan={1} className='spot-c-track_card--textblock'>
                     <TextContent>
-                        <Text component='small' style={{ color: 'white' }}>
+                        <Text component='small' className='spot-c-track_card--track'>
                             {trackData?.name.length > 30 ?
                                 `${trackData?.name.substring(0, 30)}...` :
                                 trackData?.name}
                         </Text>
                     </TextContent>
                     <TextContent>
-                        <Text component='small' style={{ fontWeight: 'bold', color: 'white' }}>
+                        <Text component='small' className='spot-c-track_card--track'>
                             {trackData?.artists.join(', ').length > 30 ?
                                 `${trackData?.artists.join(', ').substring(0, 30)}...` :
                                 trackData?.artists.join(', ')}
                         </Text>
                     </TextContent>
                 </GridItem>
-                <GridItem span={2} rowSpan={1} style={{ marginTop: '23px', marginRight: '10px' }}>
+                <GridItem span={2} rowSpan={1} className='spot-c-track_card--buttons'>
                         {isPreviewing ? 
-                            <PauseIcon onClick={togglePreview} color='white'/> :
-                            <PlayIcon onClick={togglePreview} color='white'/>}
+                            <PauseIcon onClick={togglePreview} color='white' className='spot-c-track_card--play-pause-button'/> :
+                            <PlayIcon onClick={togglePreview} color='white' className='spot-c-track_card--play-pause-button'/>}
                         <audio id={trackId}>
                             <source src={trackData.preview_url}/>
                         </audio>
                         <a href={trackData?.link}>
-                            <ShareSquareIcon style={{ marginLeft: '15px' }}/>
+                            <SpotifyIcon size='md' className='spot-c-track_card--spot-button'/>
                         </a>
                 </GridItem>
             </Grid>

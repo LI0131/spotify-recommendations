@@ -1,6 +1,9 @@
 .spot-c-root {
+
+    --spot-c-global--Spotify-Green: #1DB954;
+
     position: absolute;
-    background-color: #B8BBBE;
+    background-color: var(--pf-global--BackgroundColor--dark-300);
     width: 100%;
     top: 75px;
     bottom: 0px;

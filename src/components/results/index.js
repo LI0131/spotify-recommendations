@@ -1,3 +1,5 @@
+import './index.scss';
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -27,9 +29,7 @@ const Results = ({ recommendations, setHeaderActions }) => {
         setTrackIds(recommendations?.tracks?.map(track => track.id));
     }, [recommendations]);
 
-    return <Flex direction={{ default: 'column' }} style={{
-        position: 'relative', alignContent: 'center', top: '15px', marginBottom: '15px'
-    }}>
+    return <Flex direction={{ default: 'column' }} className='spot-c-results'>
         {trackIds && trackIds.map(id => <TrackCard trackId={id}/>)}
     </Flex>;
 };

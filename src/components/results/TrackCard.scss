@@ -1,0 +1,52 @@
+.spot-c-track_flex {
+    width: 400px;
+    height: 75px;
+    border: 1px solid var(--pf-global--BackgroundColor--dark-100);
+    box-shadow: 2px 2px var(--pf-global--BackgroundColor--dark-100);
+}
+
+.spot-c-track_card {
+    background-color: var(--pf-global--BackgroundColor--dark-300);
+}
+
+.spot-c-track_card--image {
+    img {
+        position: relative;
+        top: 5px;
+        width: 50px;
+    }
+    margin: 10px;
+}
+
+.spot-c-track_card--textblock {
+    position: relative;
+    top: 15px;
+
+    .spot-c-track_card--artist {
+        color: white;
+    }
+    
+    .spot-c-track_card--track {
+        font-weight: bold;
+        color: white;
+    }
+}
+
+.spot-c-track_card--buttons {
+    position: relative;
+    display: inline-flex;
+    justify-content: space-around;
+    top: 25px;
+}
+
+.spot-c-track_card--spot-button {
+    position: relative;
+    right: 5px;
+    color: var(--spot-c-global--Spotify-Green);
+}
+
+.spot-c-track_card--play-pause-button {
+    position: relative;
+    right: 5px;
+    top: 4px;
+}
