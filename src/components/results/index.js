@@ -19,7 +19,7 @@ const Results = ({ recommendations, setHeaderActions }) => {
             props: {
                 style: { margin: '25px' },
                 size: 'md',
-                color: '#0066CC',
+                color: '#1DB954',
                 onClick: () => (window.location = getSpotifyRedirectUrl(origin))
             }
         }]);

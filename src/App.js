@@ -12,16 +12,16 @@ const App = () => {
 		defHeaderActions(data);
 	}, [defHeaderActions]);
 
-	return <React.Fragment>
+	return <div className='spot-c-root'>
 		<Header actions={headerActions}/>
-		<div className='spot-c-root'>
+		<div className='spot-c-content'>
 			<Switch>
 				<Route exact path='/' render={(props) => <Entry setHeaderActions={setHeaderActions} {...props} />}/>
 				<Route path='/results' render={(props) => <Results setHeaderActions={setHeaderActions} {...props} />}/>
 				<Route path='/redirect' component={Redirect}/>
 			</Switch>
 		</div>
-	</React.Fragment>;
+	</div>;
 };
 
 export default App;

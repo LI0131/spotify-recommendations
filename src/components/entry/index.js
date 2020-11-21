@@ -1,3 +1,5 @@
+import './index.scss';
+
 import React from 'react';
 import { Bullseye, Button } from '@patternfly/react-core';
 import { getSpotifyRedirectUrl } from '../../utils/Common';
@@ -7,7 +9,10 @@ const Entry = () => {
     const { origin } = window.location;
 
     return <Bullseye>
-        <Button onClick={() => (window.location = getSpotifyRedirectUrl(origin))}>
+        <Button
+            className='spot-c-entry__rec-button'
+            onClick={() => (window.location = getSpotifyRedirectUrl(origin))}
+        >
             Get Music Recommendations
         </Button>
     </Bullseye>;

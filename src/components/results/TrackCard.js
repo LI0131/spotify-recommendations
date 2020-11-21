@@ -20,7 +20,7 @@ const TrackCard = ({ trackId, accessToken }) => {
         link: data?.external_urls?.spotify,
         album: {
             name: data?.album?.name,
-            image: data?.album?.images.filter(image => image.height === 64)?.[0]?.url,
+            image: data?.album?.images.filter(image => image.height === 640)?.[0]?.url,
             release_date: data?.album?.release_date
         }
     });
@@ -37,41 +37,41 @@ const TrackCard = ({ trackId, accessToken }) => {
         }).then(response => parseTrackData(response.data)).then(data => setTrackData(data));
     }, [trackId, setTrackData]);
 
-    return <FlexItem className='spot-c-track_flex'>
-        {trackData && <Card className='spot-c-track_card'>
-            <Grid>
-                <GridItem span={2} rowSpan={1} className='spot-c-track_card--image'>
+    return <FlexItem className='spot-c-track_card'>
+        {trackData && <React.Fragment>
+            <div className='spot-c-track_card--info'>
+                <div className='spot-c-track_card--image'>
                     <img src={trackData.album.image}/>
-                </GridItem>
-                <GridItem span={8} rowSpan={1} className='spot-c-track_card--textblock'>
+                </div>
+                <div className='spot-c-track_card--textblock'>
                     <TextContent>
-                        <Text component='small' className='spot-c-track_card--track'>
-                            {trackData?.name.length > 30 ?
-                                `${trackData?.name.substring(0, 30)}...` :
+                        <Text className='spot-c-track_card--track'>
+                            {trackData?.name.length > 40 ?
+                                `${trackData?.name.substring(0, 40)}...` :
                                 trackData?.name}
                         </Text>
                     </TextContent>
                     <TextContent>
-                        <Text component='small' className='spot-c-track_card--track'>
-                            {trackData?.artists.join(', ').length > 30 ?
-                                `${trackData?.artists.join(', ').substring(0, 30)}...` :
+                        <Text className='spot-c-track_card--track'>
+                            {trackData?.artists.join(', ').length > 40 ?
+                                `${trackData?.artists.join(', ').substring(0, 40)}...` :
                                 trackData?.artists.join(', ')}
                         </Text>
                     </TextContent>
-                </GridItem>
-                <GridItem span={2} rowSpan={1} className='spot-c-track_card--buttons'>
-                        {isPreviewing ? 
-                            <PauseIcon onClick={togglePreview} color='white' className='spot-c-track_card--play-pause-button'/> :
-                            <PlayIcon onClick={togglePreview} color='white' className='spot-c-track_card--play-pause-button'/>}
-                        <audio id={trackId}>
-                            <source src={trackData.preview_url}/>
-                        </audio>
-                        <a href={trackData?.link}>
-                            <SpotifyIcon size='md' className='spot-c-track_card--spot-button'/>
-                        </a>
-                </GridItem>
-            </Grid>
-        </Card>}
+                </div>
+            </div>
+            <div className='spot-c-track_card--buttons'>
+                    {isPreviewing ? 
+                        <PauseIcon onClick={togglePreview} className='spot-c-track_card--play-pause-button'/> :
+                        <PlayIcon onClick={togglePreview} className='spot-c-track_card--play-pause-button'/>}
+                    <audio id={trackId}>
+                        <source src={trackData.preview_url}/>
+                    </audio>
+                    <a href={trackData?.link}>
+                        <SpotifyIcon className='spot-c-track_card--spot-button'/>
+                    </a>
+            </div>
+        </React.Fragment>}
     </FlexItem>;
 
 };

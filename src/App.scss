@@ -1,9 +1,11 @@
 .spot-c-root {
-
     --spot-c-global--Spotify-Green: #1DB954;
+}
 
+
+.spot-c-content {
     position: absolute;
-    background-color: var(--pf-global--BackgroundColor--dark-300);
+    background-image: linear-gradient(to top, var(--pf-global--BackgroundColor--dark-300), var(--pf-global--BorderColor--200));
     width: 100%;
     top: 75px;
     bottom: 0px;
