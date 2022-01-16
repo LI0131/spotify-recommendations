@@ -6,7 +6,8 @@ const initialState = {
     tracks: null,
     recommendations: null,
     error: null,
-    loading: false
+    loading: false,
+    playingTrack: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,6 +44,11 @@ const reducer = (state = initialState, action) => {
                 error: action.payload,
                 loading: false
             };
+        case TYPES.PLAYING_TRACK:
+            return {
+                ...state,
+                playingTrack: action.payload
+            }
         default:
             return state;
     }

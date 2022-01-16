@@ -26,3 +26,8 @@ export const getTopArtists = (url, token) => execute_thunk(url, TYPES.GET_TOP_AR
 export const getTopTracks = (url, token) => execute_thunk(url, TYPES.GET_TOP_TRACKS, token, parse_results);
 
 export const getRecommendations = (url, token) => execute_thunk(url, TYPES.GET_RECOMMENDATIONS, token);
+
+export const setPlayingTrack = (trackId) => ({
+    type: TYPES.PLAYING_TRACK,
+    payload: trackId
+});

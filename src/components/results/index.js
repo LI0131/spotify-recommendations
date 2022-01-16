@@ -35,7 +35,7 @@ const Results = ({ recommendations, setHeaderActions }) => {
 };
 
 Results.propTypes = {
-    recommendations: PropTypes.array,
+    recommendations: PropTypes.object,
     setHeaderActions: PropTypes.func
 };
 

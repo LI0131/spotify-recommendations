@@ -4,14 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { FlexItem, Grid, GridItem, TextContent, Text, Card } from '@patternfly/react-core';
+import * as Actions from '../../actions';
+import { FlexItem, TextContent, Text } from '@patternfly/react-core';
 import { PauseIcon, PlayIcon, SpotifyIcon } from '@patternfly/react-icons';
 
 const BASE_URL = 'https://api.spotify.com/v1/tracks'
 
-const TrackCard = ({ trackId, accessToken }) => {
+const TrackCard = ({ trackId, accessToken, playingTrack, setPlayingTrack }) => {
+
     const [trackData, setTrackData] = useState();
-    const [isPreviewing, setPreviewStatus] = useState(false);
+    const [playerState, setPlayerState] = useState(false);
 
     const parseTrackData = (data) => ({
         name: data?.name,
@@ -25,19 +27,20 @@ const TrackCard = ({ trackId, accessToken }) => {
         }
     });
 
-    const togglePreview = () => {
-        const preview = document.getElementById(trackId);
-        isPreviewing ? preview.pause() : preview.play();
-        setPreviewStatus(!isPreviewing);
-    };
-
     useEffect(() => {
         axios.get(`${BASE_URL}/${trackId}`, {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }).then(response => parseTrackData(response.data)).then(data => setTrackData(data));
     }, [trackId, setTrackData]);
 
-    return <FlexItem className='spot-c-track_card'>
+    useEffect(() => {
+        if (trackId !== playingTrack && playerState) {
+            document.getElementById(trackId)?.pause();
+            setPlayerState(false);
+        }
+    }, [trackId, playingTrack, playerState, setPlayerState]);
+
+    return <FlexItem key={trackId} className='spot-c-track_card'>
         {trackData && <React.Fragment>
             <div className='spot-c-track_card--info'>
                 <div className='spot-c-track_card--image'>
@@ -61,26 +64,37 @@ const TrackCard = ({ trackId, accessToken }) => {
                 </div>
             </div>
             <div className='spot-c-track_card--buttons'>
-                    {isPreviewing ? 
-                        <PauseIcon onClick={togglePreview} className='spot-c-track_card--play-pause-button'/> :
-                        <PlayIcon onClick={togglePreview} className='spot-c-track_card--play-pause-button'/>}
-                    <audio id={trackId}>
-                        <source src={trackData.preview_url}/>
-                    </audio>
-                    <a href={trackData?.link}>
-                        <SpotifyIcon className='spot-c-track_card--spot-button'/>
-                    </a>
+                {trackId == playingTrack ?
+                    <PauseIcon onClick={() => {
+                        document.getElementById(trackId)?.pause();
+                        setPlayingTrack(null);
+                        setPlayerState(false);
+                    }} className='spot-c-track_card--play-pause-button'/> :
+                    <PlayIcon onClick={() => {
+                        document.getElementById(trackId)?.play();
+                        setPlayingTrack(trackId);
+                        setPlayerState(true);
+                    }} className='spot-c-track_card--play-pause-button'/>}
+                <audio id={trackId}>
+                    <source src={trackData.preview_url}/>
+                </audio>
+                <a href={trackData?.link}>
+                    <SpotifyIcon className='spot-c-track_card--spot-button'/>
+                </a>
             </div>
         </React.Fragment>}
     </FlexItem>;
-
 };
 
 TrackCard.propTypes = {
     trackId: PropTypes.string.isRequired,
-    accessToken: PropTypes.object
+    accessToken: PropTypes.string,
+    playingTrack: PropTypes.string
 };
 
 export default connect(state => ({
-    accessToken: state.Reducer.accessToken
-}), undefined)(TrackCard);
+    accessToken: state.Reducer.accessToken,
+    playingTrack: state.Reducer.playingTrack
+}), dispatch => ({
+    setPlayingTrack: (trackId) => dispatch(Actions.setPlayingTrack(trackId))
+}))(TrackCard);
