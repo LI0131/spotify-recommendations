@@ -13,7 +13,7 @@ const Entry = ({ instrumentalness, setInstrumentalness, energy, setEnergy, loudn
 
     return <Stack className='spot-c-entry_stack'>
             <Button
-                className='spot-c-entry__rec-button'
+                className='spot-c-entry__rec-button pf-m-display-lg'
                 onClick={() => (window.location = getSpotifyRedirectUrl(origin))}
             >
                 Get Music Recommendations
