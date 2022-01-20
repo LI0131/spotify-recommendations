@@ -1,3 +1,14 @@
 .pf-c-button {
+    font-weight: bold!important;
     background-color: var(--spot-c-global--Spotify-Green)!important;
+}
+
+.spot-c-entry__rec-button {
+    margin-bottom: 20px;
+}
+
+.spot-c-entry_stack {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }

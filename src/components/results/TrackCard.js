@@ -8,7 +8,7 @@ import * as Actions from '../../actions';
 import { FlexItem, TextContent, Text } from '@patternfly/react-core';
 import { PauseIcon, PlayIcon, SpotifyIcon } from '@patternfly/react-icons';
 
-const BASE_URL = 'https://api.spotify.com/v1/tracks'
+const BASE_URL = 'https://api.spotify.com/v1/tracks';
 
 const TrackCard = ({ trackId, accessToken, playingTrack, setPlayingTrack }) => {
 

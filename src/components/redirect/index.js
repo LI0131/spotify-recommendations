@@ -9,7 +9,11 @@ import PropTypes from 'prop-types';
 const BASE_URL = 'https://api.spotify.com/v1/me/top';
 const RECOMMENDATIONS_BASE_URL = 'https://api.spotify.com/v1/recommendations';
 
-const Redirect = ({ accessToken, error, loading, artists, tracks, setAccessToken, getTopArtists, getTopTracks, getRecommendations }) => {
+const Redirect = ({
+    accessToken, error, loading, artists, tracks, setAccessToken,
+    getTopArtists, getTopTracks, getRecommendations, instrumentalness,
+    loudness, energy, popularity
+}) => {
     const history = useHistory();
 
     useEffect(() => {
@@ -27,10 +31,12 @@ const Redirect = ({ accessToken, error, loading, artists, tracks, setAccessToken
 
     useEffect(() => {
         if (artists && tracks) {
-            getRecommendations(
-                `${RECOMMENDATIONS_BASE_URL}?seed_artists=${artists}&seed_tracks=${tracks}`,
-                accessToken
-            );
+            var recUrl = `${RECOMMENDATIONS_BASE_URL}?seed_artists=${artists}&seed_tracks=${tracks}`;
+            recUrl += `&target_instrumentalness=${Math.round(instrumentalness/10) / 10}`;
+            recUrl += `&target_energy=${Math.round(energy/10) / 10}`;
+            recUrl += `&target_loudness=${Math.round(loudness/10) / 10}`;
+            recUrl += `&target_popularity=${Math.round(popularity)}`;
+            getRecommendations(recUrl, accessToken);
             history.push({
                 pathname: 'results',
                 hash: ''
@@ -57,7 +63,11 @@ Redirect.propTypes = {
     getTopTracks: PropTypes.func,
     getTopArtists: PropTypes.func,
     setAccessToken: PropTypes.func,
-    getRecommendations: PropTypes.func
+    getRecommendations: PropTypes.func,
+    instrumentalness: PropTypes.number,
+    energy: PropTypes.number,
+    popularity: PropTypes.number,
+    loudness: PropTypes.number
 };
 
 export default connect(state => ({
@@ -65,7 +75,11 @@ export default connect(state => ({
     error: state.Reducer.error,
     loading: state.Reducer.loading,
     artists: state.Reducer.artists,
-    tracks: state.Reducer.tracks
+    tracks: state.Reducer.tracks,
+    instrumentalness: state.Reducer.instrumentalness,
+    energy: state.Reducer.energy,
+    popularity: state.Reducer.popularity,
+    loudness: state.Reducer.loudness
 }), dispatch => ({
     getTopArtists: (url, token) => dispatch(Actions.getTopArtists(url, token)),
     getTopTracks: (url, token) => dispatch(Actions.getTopTracks(url, token)),

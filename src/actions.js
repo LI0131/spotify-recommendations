@@ -31,3 +31,23 @@ export const setPlayingTrack = (trackId) => ({
     type: TYPES.PLAYING_TRACK,
     payload: trackId
 });
+
+export const setInstrumentalness = (value) => ({
+    type: TYPES.INSTRUMENTALNESS,
+    payload: value
+});
+
+export const setEnergy = (value) => ({
+    type: TYPES.ENERGY,
+    payload: value
+});
+
+export const setPopularity = (value) => ({
+    type: TYPES.POPULARITY,
+    payload: value
+});
+
+export const setLoudness = (value) => ({
+    type: TYPES.LOUDNESS,
+    payload: value
+});
